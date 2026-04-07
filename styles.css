@@ -1,4 +1,4 @@
-/* SMOOTH SCROLLING */
+/* Enable Smooth Scrolling */
 html {
     scroll-behavior: smooth;
 }
@@ -6,12 +6,14 @@ html {
 body, html {
     margin: 0;
     padding: 0;
-    background-color: white;
-    font-family: 'Segoe UI', sans-serif;
+    width: 100%;
+    /* Remove overflow-x to prevent horizontal shaking */
+    overflow-x: hidden; 
 }
 
-/* LANDING PAGE - DEAD CENTER */
+/* LANDING PAGE - FULL WHITE SCREEN */
 .landing-page {
+    width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -21,50 +23,35 @@ body, html {
 
 .press-link {
     text-decoration: none;
-    font-size: 2.5rem;
-    color: #333;
-    transition: 0.3s ease;
-}
-
-.press-link:hover {
+    font-size: 3rem;
     color: #000;
-    transform: scale(1.1);
+    font-family: sans-serif;
+    transition: 0.3s;
 }
 
-.smiley {
-    display: inline-block;
-    margin-left: 10px;
-}
-
-/* THE BLACK BACKGROUND SECTION */
+/* THE BLACK SECTION */
 .black-container {
     background-color: #000000;
     color: #ffffff;
+    width: 100%;
+    min-height: 500vh; /* Force it to be 5 times the screen height */
+    display: block;
 }
 
-/* CONTENT BOXES - THE REVEAL MECHANISM */
+/* CONTENT BOXES */
 .content-box {
-    height: 100vh; /* Each section is one full screen high */
+    height: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 15%;
-    
-    /* This makes the text stick to the center as you scroll */
-    position: sticky;
-    top: 0;
 }
 
 .content-box p {
-    font-size: 1.8rem;
-    line-height: 1.6;
-    max-width: 800px;
-    /* Basic fade-in when the page loads or scrolls */
-    opacity: 1; 
-}
-
-/* Adds a bit of space at the bottom so you can finish the scroll */
-.black-container {
-    padding-bottom: 10vh;
+    font-size: 2rem;
+    font-family: sans-serif;
+    max-width: 700px;
+    padding: 0 20px;
+    line-height: 1.5;
 }
