@@ -5,173 +5,172 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Omar Wael</title>
     <style>
-        /* 1. RESET */
-        html {
-            scroll-behavior: smooth;
-        }
-
+        /* 1. CORE STYLE & RESET */
+        html { scroll-behavior: smooth; }
         body, html {
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            margin: 0; padding: 0;
+            background-color: #050505; 
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            color: #e0e0e0;
             overflow: hidden;
-            color: white;
+            height: 100%;
         }
 
-        /* 2. THE LANDING PAGE & BUTTON */
+        /* 2. THE CHECKBOX HACK */
+        #nav-trigger { display: none; }
+
+        /* 3. THE LANDING GATE */
         #landing {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
+            height: 100vh; width: 100%;
+            display: flex; justify-content: center; align-items: center;
+            background-color: #ffffff;
+            position: fixed; top: 0; left: 0; z-index: 1000;
             transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
-        .press-link {
-            text-decoration: none;
-            font-size: 3.5rem;
-            color: black;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s ease;
-            display: inline-block;
+        .press-label {
+            font-size: 3.5rem; color: #000000; font-weight: 800;
+            cursor: pointer; letter-spacing: -1px;
+            transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            user-select: none;
+        }
+        .press-label:hover { transform: scale(1.08); opacity: 0.7; }
+
+        /* TRIGGER LOGIC */
+        #nav-trigger:checked ~ #landing { transform: translateY(-100%); pointer-events: none; }
+        #nav-trigger:checked ~ #portfolio { display: block; overflow-y: auto; }
+        #nav-trigger:checked ~ .vignette { display: block; }
+
+        /* 4. EXTREME VIGNETTE */
+        .vignette {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 10%, rgba(0,0,0,0.98) 90%);
+            pointer-events: none; 
+            z-index: 5;
+            display: none;
         }
 
-        /* Restoring the button hover effect */
-        .press-link:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.1));
-        }
-
-        /* 3. PORTFOLIO SNAP CONTAINER */
+        /* 5. PORTFOLIO & SECTIONS */
         #portfolio {
             display: none;
             height: 100vh;
-            overflow-y: scroll;
             scroll-snap-type: y mandatory;
+            background: radial-gradient(circle at center, #0a0a0a 0%, #050505 100%);
+            z-index: 1;
         }
 
-        /* Clean Look */
         #portfolio::-webkit-scrollbar { display: none; }
 
-        .black-section {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .section {
+            height: 100vh; width: 100%;
+            display: flex; justify-content: center; align-items: center;
             scroll-snap-align: start;
             scroll-snap-stop: always;
         }
 
-        /* 4. THE FADE TRANSITIONS */
+        /* 6. TEXT & BUTTON ANIMATION */
         .text-content {
-            font-size: 2.2rem;
-            text-align: center;
-            max-width: 850px;
-            padding: 0 10%;
-            line-height: 1.5;
+            font-size: 2.2rem; text-align: center;
+            max-width: 900px; padding: 0 10%; line-height: 1.6;
+            font-weight: 300; letter-spacing: -0.02em;
+            position: relative;
+            z-index: 10; 
             
-            /* Animation Setup */
             view-timeline-name: --section;
             view-timeline-axis: block;
             animation: linear both fade-reveal;
             animation-timeline: --section;
-            /* Entry/Exit range controls the "Snappiness" */
             animation-range: entry 15% exit 85%;
         }
 
         @keyframes fade-reveal {
-            /* Quick Fade In */
-            0% { opacity: 0; transform: translateY(30px); filter: blur(10px); }
-            25% { opacity: 1; transform: translateY(0); filter: blur(0px); }
-
-            /* Solid Middle (Reading Time) */
-            75% { opacity: 1; transform: translateY(0); filter: blur(0px); }
-
-            /* Quick Fade Out */
-            100% { opacity: 0; transform: translateY(-30px); filter: blur(10px); }
+            0% { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(20px); }
+            25%, 75% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+            100% { opacity: 0; transform: translateY(-40px) scale(1.02); filter: blur(20px); }
         }
 
-        .dot {
-            height: 4px;
-            width: 4px;
-            background-color: #444;
-            margin: 25px auto 0;
-            border-radius: 50%;
+        /* 7. BUTTON STYLING */
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 50px;
         }
+
+        .premium-btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            color: #ffffff;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            border-radius: 2px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.4s ease;
+        }
+
+        .premium-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .dot { height: 4px; width: 4px; background-color: rgba(255,255,255,0.15); margin: 30px auto 0; border-radius: 50%; }
     </style>
 </head>
 <body>
 
+    <input type="checkbox" id="nav-trigger">
+
     <div id="landing">
-        <a href="javascript:void(0)" class="press-link" onclick="enterPortfolio()">
-            press me :)
-        </a>
+        <label for="nav-trigger" class="press-label">press me :)</label>
     </div>
 
+    <div class="vignette"></div>
+
     <div id="portfolio">
-        
-        <div class="black-section">
+        <div class="section">
             <div class="text-content">
                 <p>Exploring the intersection of biology and automated systems through vertical farming prototypes.</p>
                 <div class="dot"></div>
             </div>
         </div>
 
-        <div class="black-section">
+        <div class="section">
             <div class="text-content">
                 <p>Utilizing principles from Halliday & Resnick to optimize structural mechanics in engineering builds.</p>
                 <div class="dot"></div>
             </div>
         </div>
 
-        <div class="black-section">
+        <div class="section">
             <div class="text-content">
                 <p>Deep diving into organic chemistry mechanisms and the thermodynamic equilibrium of chemical bonding.</p>
                 <div class="dot"></div>
             </div>
         </div>
 
-        <div class="black-section">
+        <div class="section">
             <div class="text-content">
                 <p>Developing 2D platformers and interactive systems using logic-driven GDScript environments.</p>
                 <div class="dot"></div>
             </div>
         </div>
 
-        <div class="black-section">
+        <div class="section">
             <div class="text-content">
                 <p>From Ismailia to Siwa: Traveling and documenting the practical application of STEM in the field.</p>
+                
+                <div class="btn-container">
+                    <a href="https://your-social-link.com" target="_blank" class="premium-btn">Social Media</a>
+                    <a href="https://your-unknown-link.com" target="_blank" class="premium-btn">Unknown</a>
+                </div>
             </div>
         </div>
-
     </div>
-
-    <script>
-        function enterPortfolio() {
-            const landing = document.getElementById('landing');
-            const portfolio = document.getElementById('portfolio');
-
-            // Slide Up Effect
-            landing.style.transform = 'translateY(-100%)';
-            
-            // Show Portfolio
-            portfolio.style.display = 'block';
-
-            // Once the slide is done, delete the landing page so it can't be scrolled back to
-            setTimeout(() => {
-                landing.style.display = 'none';
-            }, 1000);
-        }
-    </script>
 
 </body>
 </html>
