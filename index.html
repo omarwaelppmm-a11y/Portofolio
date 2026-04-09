@@ -117,47 +117,107 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .project-trigger:hover { letter-spacing: 4px; background: #fff; color: #000; }
 
-        /* 7. INVENTIONS LAYER */
+        /* 7. SLIDER INVENTIONS LAYER */
         #inventions-layer {
             position: fixed; inset: 0;
-            background: #000;
+            background: #050505;
             z-index: 10;
             opacity: 0; visibility: hidden;
-            transition: opacity 0.6s ease;
-            overflow-y: auto;
-            padding: 100px 10%;
+            transition: all 0.6s cubic-bezier(0.85, 0, 0.15, 1);
             display: flex; flex-direction: column; align-items: center;
+            justify-content: center;
         }
 
-        #inventions-layer h1 { font-size: 4rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 40px; }
-
-        .inv-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 40px; width: 100%; max-width: 1200px;
+        #inventions-layer h1 { 
+            font-size: clamp(3rem, 10vw, 5rem); 
+            font-weight: 900; 
+            letter-spacing: -3px; 
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff, #444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
+        /* THE HORIZONTAL BAR */
+        .inv-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 40px;
+            width: 100%;
+            padding: 20px 20%; /* Centers first and last card */
+            scrollbar-width: none;
+        }
+        .inv-slider::-webkit-scrollbar { display: none; }
 
         .inv-card {
-            background: #0a0a0a; border: 1px solid #1a1a1a;
-            padding: 30px; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex; flex-direction: column;
+            flex: 0 0 450px; /* Width of each bar item */
+            scroll-snap-align: center;
+            background: #0d0d0d; 
+            border: 1px solid #1a1a1a;
+            padding: 40px; 
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex; 
+            flex-direction: column;
+            position: relative;
         }
-        .inv-card:hover { border-color: #fff; transform: translateY(-10px); }
+
+        .inv-card:hover { 
+            border-color: rgba(255,255,255,0.4); 
+            background: #111;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
 
         .inv-img { 
-            width: 100%; height: 250px; 
-            margin-bottom: 25px; border: 1px solid #222;
-            background-color: #111;
+            width: 100%; height: 220px; 
+            margin-bottom: 30px; 
+            border: 1px solid #222;
+            background-color: #000;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
+            transition: 0.5s ease;
         }
 
-        .inv-card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; font-weight: 700; }
-        .inv-card p { font-size: 1rem; color: #aaa; line-height: 1.7; font-weight: 300; flex-grow: 1; }
-        .disclaimer { font-style: italic; color: #555; font-size: 0.85rem; margin-top: 15px; border-top: 1px solid #222; padding-top: 10px; }
+        .inv-card h3 { 
+            font-size: 1.6rem; 
+            margin-bottom: 15px; 
+            color: #fff; 
+            font-weight: 700; 
+        }
+
+        .inv-card p { 
+            font-size: 0.95rem; 
+            color: #999; 
+            line-height: 1.8; 
+            flex-grow: 1; 
+        }
+
+        .disclaimer { 
+            font-size: 0.75rem; 
+            color: #444; 
+            margin-top: 25px; 
+            padding-top: 15px;
+            border-top: 1px solid #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .scroll-hint {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #333;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
 
         .dot { height: 4px; width: 4px; background: rgba(255,255,255,0.2); margin: 30px auto 0; border-radius: 50%; }
         .action-box { margin-top: 50px; display: flex; gap: 20px; justify-content: center; }
@@ -196,67 +256,43 @@
 
     <div id="inventions-layer">
         <h1>Inventions</h1>
-        <div class="inv-grid">
-            
+        
+        <div class="inv-slider">
             <div class="inv-card">
-                <div class="inv-img" style="background-color: #1a1a1a;"></div>
+                <div class="inv-img" style="background-color: #111;"></div>
                 <h3>Biological Cell Incubator</h3>
                 <p>
-                    A precision-engineered system designed to maintain specific environmental conditions for bacteria and fungi. 
-                    Utilized in <strong>PCR</strong> workflows and gene editing, maintaining stability from <strong>0.4°C to 66°C</strong>.
+                    A precision-engineered system designed to maintain strict environmental parameters for bacterial and fungal cultures. 
+                    Utilizes dual-thermostat regulation to ensure homeostatic stability.
                 </p>
-                <p class="disclaimer">Note: Strictly for scientific use; not for use as a dorm refrigerator.</p>
+                <p class="disclaimer">Status: Functional Prototype</p>
+            </div>
+
+            <div class="inv-card">
+                <div class="inv-img" style="background-color: #111; display: flex; align-items: center; justify-content: center; color: #222; font-size: 0.8rem; letter-spacing: 2px;">
+                    PHOTO PENDING
+                </div>
+                <h3>V-G.H. (Growth Homeostat)</h3>
+                <p>
+                    An automated growth chamber regulating <strong>Vapor Pressure Deficit (VPD)</strong> and photonic input for accelerated biomass production. 
+                    Optimized for resource management.
+                </p>
+                <p class="disclaimer">Focus: Sustainable Automation</p>
             </div>
 
             <div class="inv-card">
                 <div class="inv-img" style="background-image: url('creepy_potato.png') !important;"></div>
                 <h3>Creepy Potato</h3>
                 <p>
-                    A 2D platformer architected in the <strong>Godot Engine</strong> with a singular purpose: <strong>ragebait</strong>. 
-                    Built using logic-driven GDScript environments, this project features high-difficulty mechanics designed to challenge even the most patient players.
+                    A 2D platformer architected in <strong>Godot</strong>. 
+                    A study in difficulty-based user psychology, featuring logic-driven level design intended to test mechanical precision.
                 </p>
-                <p class="disclaimer">Warning: May cause keyboard damage, of course not because of the bad game design.</p>
+                <p class="disclaimer">Engine: Godot / GDScript</p>
             </div>
-
         </div>
+
+        <div class="scroll-hint">SHIFT LEFT OR RIGHT</div>
     </div>
 
 </body>
-</html><div id="inventions-layer">
-        <h1>Inventions</h1>
-        <div class="inv-grid">
-            
-            <div class="inv-card">
-                <div class="inv-img" style="background-color: #1a1a1a;"></div>
-                <h3>Biological Cell Incubator</h3>
-                <p>
-                    A precision-engineered system designed to maintain specific environmental conditions for bacteria and fungi. 
-                    Utilized in <strong>PCR</strong> workflows and gene editing, maintaining stability from <strong>0.4°C to 66°C</strong>.
-                </p>
-                <p class="disclaimer">Note: Strictly for scientific use; not for use as a dorm refrigerator.</p>
-            </div>
-
-            <div class="inv-card">
-                <div class="inv-img" style="background-color: #151515; border: 1px dashed #333; display: flex; align-items: center; justify-content: center; color: #444;">
-                    <span>[Insert Greenhouse Image]</span>
-                </div>
-                <h3>Vertical Farming Greenhouse</h3>
-                <p>
-                    An automated growth chamber designed for space-efficiency and resource optimization. 
-                    It regulates <strong>vapor pressure deficit (VPD)</strong>, light cycles, and nutrient delivery to create an artificial ecosystem for maximum biomass yield.
-                </p>
-                <p class="disclaimer">Targeting optimal homeostasis for plant physiology.</p>
-            </div>
-
-            <div class="inv-card">
-                <div class="inv-img" style="background-image: url('creepy_potato.png') !important;"></div>
-                <h3>Creepy Potato</h3>
-                <p>
-                    A 2D platformer architected in the <strong>Godot Engine</strong> with a singular purpose: <strong>ragebait</strong>. 
-                    Built using logic-driven GDScript environments, this project features high-difficulty mechanics designed to challenge players.
-                </p>
-                <p class="disclaimer">Warning: May cause keyboard damage, of course not because of the bad game design.</p>
-            </div>
-
-        </div>
-    </div>
+</html>
