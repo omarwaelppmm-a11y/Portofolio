@@ -30,27 +30,27 @@
         .press-label {
             font-size: 3.5rem; color: #000; font-weight: 800;
             cursor: pointer; letter-spacing: -1px;
-            transition: 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
         }
-        .press-label:hover { transform: scale(1.05); opacity: 0.7; }
+        .press-label:hover { transform: scale(1.1); opacity: 0.6; letter-spacing: 2px; }
 
-        /* Entrance Logic */
         #nav-trigger:checked ~ #landing { transform: translateY(-100%); pointer-events: none; }
         #nav-trigger:checked ~ #portfolio { display: block; overflow-y: auto; }
         #nav-trigger:checked ~ .vignette { display: block; }
 
-        /* Invention Slide Logic */
         #inv-trigger:checked ~ #portfolio { transform: translateY(-100%); pointer-events: none; }
-        #inv-trigger:checked ~ #inventions-layer { opacity: 1; visibility: visible; }
+        #inv-trigger:checked ~ #inventions-layer { opacity: 1; visibility: visible; pointer-events: auto; }
+        #inv-trigger:checked ~ .top-nav { z-index: 2000; opacity: 1; visibility: visible; pointer-events: auto; }
 
-        /* 3. VIGNETTE */
+        /* 3. VIGNETTE EFFECT */
         .vignette {
             position: fixed; inset: 0;
             background: radial-gradient(circle, transparent 15%, rgba(0,0,0,0.98) 85%);
             pointer-events: none; z-index: 50; display: none;
         }
 
-        /* 4. PORTFOLIO SECTIONS */
+        /* 4. PORTFOLIO CONTAINER */
         #portfolio { 
             display: none; 
             height: 100vh; 
@@ -84,7 +84,7 @@
             100% { opacity: 0; transform: translateY(-40px); filter: blur(15px); }
         }
 
-        /* 5. BUTTON STYLING & EFFECTS */
+        /* 5. BUTTON STYLING */
         .ui-btn {
             padding: 12px 30px; border: 1px solid rgba(255,255,255,0.2);
             color: #fff; text-decoration: none; text-transform: uppercase;
@@ -94,8 +94,7 @@
             position: relative; overflow: hidden;
             z-index: 100;
         }
-
-        .ui-btn:hover, .ui-btn:active {
+        .ui-btn:hover {
             background: #ffffff;
             color: #000000 !important;
             box-shadow: 0 0 25px rgba(255,255,255,0.4);
@@ -103,40 +102,46 @@
             border-color: #ffffff;
         }
 
-        .action-box { margin-top: 50px; display: flex; gap: 20px; justify-content: center; z-index: 100; }
-        .dot { height: 4px; width: 4px; background: rgba(255,255,255,0.2); margin: 30px auto 0; border-radius: 50%; }
+        .top-nav {
+            position: fixed; top: 40px; right: 40px;
+            opacity: 0; visibility: hidden; transition: 0.5s ease;
+            pointer-events: none;
+        }
+        .back-btn { background: #000; border: 1px solid rgba(255,255,255,0.6); }
 
         /* 6. INVENTIONS LAYER */
         #inventions-layer {
             position: fixed; inset: 0;
             background: #000;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
             z-index: 10;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s ease;
+            overflow-y: auto;
+            padding: 100px 10%;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .top-right-nav {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            z-index: 500;
+        .inv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 60px;
         }
 
-        .back-btn {
-            background: #000;
-            border: 1px solid rgba(255,255,255,0.4);
+        .inv-card {
+            background: #111;
+            border: 1px solid #222;
+            padding: 20px;
+            transition: 0.3s;
         }
 
-        /* Jumpscare */
-        #scare { position: fixed; inset: 0; background: #000; z-index: 5000; display: none; justify-content: center; align-items: center; }
-        #scare:target { display: flex; }
-        .scare-img { width: 100vw; height: 100vh; object-fit: contain; animation: shake 0.1s infinite; }
-        @keyframes shake { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, 2px); } 100% { transform: translate(3px, -1px); } }
-        
-        .corner-btn { position: absolute; bottom: 40px; right: 40px; z-index: 100; }
+        .inv-img { width: 100%; height: 200px; background: #1a1a1a; object-fit: cover; margin-bottom: 15px; }
+
+        .dot { height: 4px; width: 4px; background: rgba(255,255,255,0.2); margin: 30px auto 0; border-radius: 50%; }
+        .action-box { margin-top: 50px; display: flex; gap: 20px; justify-content: center; }
     </style>
 </head>
 <body>
@@ -148,38 +153,30 @@
         <label for="nav-trigger" class="press-label">press me :)</label>
     </div>
 
+    <div class="top-nav">
+        <label for="inv-trigger" class="ui-btn back-btn">Back</label>
+    </div>
+
     <div class="vignette"></div>
 
     <div id="portfolio">
+        <div class="section">
+            <div class="text-content">
+                <p>Hello, I am <strong>Omar Wael</strong> and you can call me <strong>THE ARTIST</strong>.</p>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="text-content">
+                <p>I am a teenager and I love challenges, محشي ورق عنب, and <strong>Fairuz</strong>.</p>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="section"><div class="text-content"><p>Analyzing thermodynamic equilibrium and electromagnetic fields to optimize energy transfer.</p><div class="dot"></div></div></div>
+        <div class="section"><div class="text-content"><p>Architecting incubator systems with parallel circuit integration and precision ATmega sensing.</p><div class="dot"></div></div></div>
         
-        <div class="section">
-            <div class="text-content">
-                <p>Exploring the intersection of biology and automated systems through vertical farming prototypes.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="text-content">
-                <p>Developing 2D platformers and interactive systems using logic-driven GDScript environments.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="text-content">
-                <p>Analyzing thermodynamic equilibrium and electromagnetic fields to optimize energy transfer in closed systems.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="text-content">
-                <p>Architecting incubator systems with parallel circuit integration and precision ATmega sensing.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
         <div class="section">
             <div class="text-content">
                 <p>From Ismailia to Siwa: Traveling and documenting the practical application of STEM in the field.</p>
@@ -188,25 +185,18 @@
                     <label for="inv-trigger" class="ui-btn">Inventions</label>
                 </div>
             </div>
-            <div class="corner-btn">
-                <a href="#scare" class="ui-btn">Unknown</a>
-            </div>
         </div>
     </div>
 
     <div id="inventions-layer">
-        <div class="top-right-nav">
-            <label for="inv-trigger" class="ui-btn back-btn">Back</label>
+        <h1 style="font-size: 4rem; font-weight: 800; letter-spacing: -2px;">Inventions</h1>
+        <div class="inv-grid">
+            <div class="inv-card">
+                <div class="inv-img"></div>
+                <h3>Project Title</h3>
+                <p>Ready for your project photos.</p>
+            </div>
         </div>
-        <div class="text-content">
-            <h1 style="font-size: 4rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 20px;">Inventions</h1>
-            <p style="font-size: 1.2rem; color: #888;">System mechanics and technical builds.</p>
-        </div>
-    </div>
-
-    <div id="scare">
-        <img src="https://i.postimg.cc/mD8z7p9k/hamster.png" class="scare-img" alt="Scare">
-        <a href="#" style="position:absolute; inset:0; z-index:5001;"></a>
     </div>
 
 </body>
