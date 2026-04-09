@@ -5,21 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Omar Wael</title>
     <style>
-        /* 1. CORE STYLE & RESET */
+        /* 1. CORE RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body, html {
-            margin: 0; padding: 0;
-            background-color: #050505; 
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: #050505;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             color: #e0e0e0;
-            overflow: hidden;
-            height: 100%;
+            overflow: hidden; 
+            height: 100vh;
         }
 
-        /* 2. THE CHECKBOX HACK */
-        #nav-trigger { display: none; }
+        #nav-trigger, #inv-trigger { display: none; }
 
-        /* 3. THE LANDING GATE */
+        /* 2. LANDING GATE */
         #landing {
             height: 100vh; width: 100%;
             display: flex; justify-content: center; align-items: center;
@@ -29,55 +28,49 @@
         }
 
         .press-label {
-            font-size: 3.5rem; color: #000000; font-weight: 800;
+            font-size: 3.5rem; color: #000; font-weight: 800;
             cursor: pointer; letter-spacing: -1px;
-            transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            user-select: none;
+            transition: 0.4s ease;
         }
-        .press-label:hover { transform: scale(1.08); opacity: 0.7; }
+        .press-label:hover { transform: scale(1.05); opacity: 0.7; }
 
-        /* TRIGGER LOGIC */
+        /* Entrance Logic */
         #nav-trigger:checked ~ #landing { transform: translateY(-100%); pointer-events: none; }
         #nav-trigger:checked ~ #portfolio { display: block; overflow-y: auto; }
         #nav-trigger:checked ~ .vignette { display: block; }
 
-        /* 4. EXTREME VIGNETTE */
+        /* Invention Slide Logic */
+        #inv-trigger:checked ~ #portfolio { transform: translateY(-100%); pointer-events: none; }
+        #inv-trigger:checked ~ #inventions-layer { opacity: 1; visibility: visible; }
+
+        /* 3. VIGNETTE */
         .vignette {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, transparent 10%, rgba(0,0,0,0.98) 90%);
-            pointer-events: none; 
-            z-index: 5;
-            display: none;
+            position: fixed; inset: 0;
+            background: radial-gradient(circle, transparent 15%, rgba(0,0,0,0.98) 85%);
+            pointer-events: none; z-index: 50; display: none;
         }
 
-        /* 5. PORTFOLIO & SECTIONS */
-        #portfolio {
-            display: none;
-            height: 100vh;
-            scroll-snap-type: y mandatory;
-            background: radial-gradient(circle at center, #0a0a0a 0%, #050505 100%);
-            z-index: 1;
+        /* 4. PORTFOLIO SECTIONS */
+        #portfolio { 
+            display: none; 
+            height: 100vh; 
+            scroll-snap-type: y mandatory; 
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+            position: relative;
+            z-index: 100;
         }
-
         #portfolio::-webkit-scrollbar { display: none; }
 
         .section {
             height: 100vh; width: 100%;
-            display: flex; justify-content: center; align-items: center;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            scroll-snap-align: start; padding: 0 10%;
+            position: relative;
         }
 
-        /* 6. TEXT & BUTTON ANIMATION */
         .text-content {
-            font-size: 2.2rem; text-align: center;
-            max-width: 900px; padding: 0 10%; line-height: 1.6;
-            font-weight: 300; letter-spacing: -0.02em;
-            position: relative;
-            z-index: 10; 
-            
+            font-size: 2.2rem; text-align: center; max-width: 900px;
+            font-weight: 300; line-height: 1.6; z-index: 60;
             view-timeline-name: --section;
             view-timeline-axis: block;
             animation: linear both fade-reveal;
@@ -86,44 +79,72 @@
         }
 
         @keyframes fade-reveal {
-            0% { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(20px); }
-            25%, 75% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
-            100% { opacity: 0; transform: translateY(-40px) scale(1.02); filter: blur(20px); }
+            0% { opacity: 0; transform: translateY(40px); filter: blur(15px); }
+            30%, 70% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+            100% { opacity: 0; transform: translateY(-40px); filter: blur(15px); }
         }
 
-        /* 7. BUTTON STYLING */
-        .btn-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 50px;
+        /* 5. BUTTON STYLING & EFFECTS */
+        .ui-btn {
+            padding: 12px 30px; border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; text-decoration: none; text-transform: uppercase;
+            letter-spacing: 2px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+            cursor: pointer; font-size: 0.9rem; display: inline-block;
+            position: relative; overflow: hidden;
+            z-index: 100;
         }
 
-        .premium-btn {
-            padding: 12px 30px;
-            font-size: 1rem;
-            color: #ffffff;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.02);
-            border-radius: 2px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.4s ease;
-        }
-
-        .premium-btn:hover {
+        .ui-btn:hover, .ui-btn:active {
             background: #ffffff;
-            color: #000000;
-            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            color: #000000 !important;
+            box-shadow: 0 0 25px rgba(255,255,255,0.4);
+            transform: translateY(-3px);
+            border-color: #ffffff;
         }
 
-        .dot { height: 4px; width: 4px; background-color: rgba(255,255,255,0.15); margin: 30px auto 0; border-radius: 50%; }
+        .action-box { margin-top: 50px; display: flex; gap: 20px; justify-content: center; z-index: 100; }
+        .dot { height: 4px; width: 4px; background: rgba(255,255,255,0.2); margin: 30px auto 0; border-radius: 50%; }
+
+        /* 6. INVENTIONS LAYER */
+        #inventions-layer {
+            position: fixed; inset: 0;
+            background: #000;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Back Button Container at the Top Right */
+        .top-right-nav {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            z-index: 500; /* High z-index to stay above background */
+        }
+
+        /* Explicit styling for the Back button */
+        .back-btn {
+            background: #000; /* Ensure it has a solid background to be visible */
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        /* Jumpscare */
+        #scare { position: fixed; inset: 0; background: #000; z-index: 5000; display: none; justify-content: center; align-items: center; }
+        #scare:target { display: flex; }
+        .scare-img { width: 100vw; height: 100vh; object-fit: contain; animation: shake 0.1s infinite; }
+        @keyframes shake { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, 2px); } 100% { transform: translate(3px, -1px); } }
+        
+        .corner-btn { position: absolute; bottom: 40px; right: 40px; z-index: 100; }
     </style>
 </head>
 <body>
 
     <input type="checkbox" id="nav-trigger">
+    <input type="checkbox" id="inv-trigger">
 
     <div id="landing">
         <label for="nav-trigger" class="press-label">press me :)</label>
@@ -132,23 +153,10 @@
     <div class="vignette"></div>
 
     <div id="portfolio">
+        
         <div class="section">
             <div class="text-content">
                 <p>Exploring the intersection of biology and automated systems through vertical farming prototypes.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="text-content">
-                <p>Utilizing principles from Halliday & Resnick to optimize structural mechanics in engineering builds.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="text-content">
-                <p>Deep diving into organic chemistry mechanisms and the thermodynamic equilibrium of chemical bonding.</p>
                 <div class="dot"></div>
             </div>
         </div>
@@ -163,13 +171,30 @@
         <div class="section">
             <div class="text-content">
                 <p>From Ismailia to Siwa: Traveling and documenting the practical application of STEM in the field.</p>
-                
-                <div class="btn-container">
-                    <a href="https://your-social-link.com" target="_blank" class="premium-btn">Social Media</a>
-                    <a href="https://your-unknown-link.com" target="_blank" class="premium-btn">Unknown</a>
+                <div class="action-box">
+                    <a href="https://www.instagram.com/omar_wael_9.47/" target="_blank" class="ui-btn">Instagram</a>
+                    <label for="inv-trigger" class="ui-btn">Inventions</label>
                 </div>
             </div>
+            <div class="corner-btn">
+                <a href="#scare" class="ui-btn">Unknown</a>
+            </div>
         </div>
+    </div>
+
+    <div id="inventions-layer">
+        <div class="top-right-nav">
+            <label for="inv-trigger" class="ui-btn back-btn">Back</label>
+        </div>
+        <div class="text-content">
+            <h1 style="font-size: 4rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 20px;">Inventions</h1>
+            <p style="font-size: 1.2rem; color: #888;">System mechanics and technical builds.</p>
+        </div>
+    </div>
+
+    <div id="scare">
+        <img src="https://i.postimg.cc/mD8z7p9k/hamster.png" class="scare-img" alt="Scare">
+        <a href="#" style="position:absolute; inset:0; z-index:5001;"></a>
     </div>
 
 </body>
