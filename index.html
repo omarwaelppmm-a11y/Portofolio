@@ -68,6 +68,7 @@
             position: relative;
         }
 
+        /* GLOBAL CRACKED EFFECT APPLIED TO PORTFOLIO TEXT */
         .text-content {
             font-size: 2.2rem; text-align: center; max-width: 900px;
             font-weight: 300; line-height: 1.6; z-index: 60;
@@ -76,6 +77,15 @@
             animation: linear both fade-reveal;
             animation-timeline: --section;
             animation-range: entry 15% exit 85%;
+            
+            /* The "Cracked" Look */
+            text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(255,255,255,0.1);
+            letter-spacing: 1px;
+        }
+
+        .text-content strong {
+            font-weight: 800;
+            text-shadow: 0 0 15px rgba(255,255,255,0.5);
         }
 
         @keyframes fade-reveal {
@@ -84,7 +94,7 @@
             100% { opacity: 0; transform: translateY(-40px); filter: blur(15px); }
         }
 
-        /* 5. BUTTON STYLING */
+        /* 5. BUTTON STYLING (No Glow Effect) */
         .ui-btn {
             padding: 12px 30px; border: 1px solid rgba(255,255,255,0.2);
             color: #fff; text-decoration: none; text-transform: uppercase;
@@ -93,6 +103,7 @@
             cursor: pointer; font-size: 0.9rem; display: inline-block;
             position: relative; overflow: hidden;
             z-index: 100;
+            text-shadow: none !important; /* Forces no glow on buttons */
         }
         .ui-btn:hover {
             background: #ffffff;
@@ -109,7 +120,7 @@
         }
         .back-btn { background: #000; border: 1px solid rgba(255,255,255,0.6); }
 
-        /* 6. INVENTIONS LAYER */
+        /* 6. INVENTIONS LAYER (Effect Removed Here) */
         #inventions-layer {
             position: fixed; inset: 0;
             background: #000;
@@ -120,6 +131,14 @@
             overflow-y: auto;
             padding: 100px 10%;
             display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* Resetting text in inventions layer to be clean/sharp */
+        #inventions-layer h1, 
+        #inventions-layer p, 
+        #inventions-layer h3 {
+            text-shadow: none !important;
+            letter-spacing: normal;
         }
 
         .inv-grid {
@@ -174,8 +193,19 @@
             </div>
         </div>
 
-        <div class="section"><div class="text-content"><p>Analyzing thermodynamic equilibrium and electromagnetic fields to optimize energy transfer.</p><div class="dot"></div></div></div>
-        <div class="section"><div class="text-content"><p>Architecting incubator systems with parallel circuit integration and precision ATmega sensing.</p><div class="dot"></div></div></div>
+        <div class="section">
+            <div class="text-content">
+                <p>The best and the most handsome and the kindest and the richest <strong>Omar Wael</strong>.</p>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="text-content">
+                <p>Architecting incubator systems with parallel circuit integration and precision ATmega sensing.</p>
+                <div class="dot"></div>
+            </div>
+        </div>
         
         <div class="section">
             <div class="text-content">
