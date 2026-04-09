@@ -68,7 +68,6 @@
             position: relative;
         }
 
-        /* GLOBAL CRACKED EFFECT APPLIED TO PORTFOLIO TEXT */
         .text-content {
             font-size: 2.2rem; text-align: center; max-width: 900px;
             font-weight: 300; line-height: 1.6; z-index: 60;
@@ -77,15 +76,8 @@
             animation: linear both fade-reveal;
             animation-timeline: --section;
             animation-range: entry 15% exit 85%;
-            
-            /* The "Cracked" Look */
             text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(255,255,255,0.1);
             letter-spacing: 1px;
-        }
-
-        .text-content strong {
-            font-weight: 800;
-            text-shadow: 0 0 15px rgba(255,255,255,0.5);
         }
 
         @keyframes fade-reveal {
@@ -94,7 +86,7 @@
             100% { opacity: 0; transform: translateY(-40px); filter: blur(15px); }
         }
 
-        /* 5. BUTTON STYLING (No Glow Effect) */
+        /* 5. BUTTON STYLING */
         .ui-btn {
             padding: 12px 30px; border: 1px solid rgba(255,255,255,0.2);
             color: #fff; text-decoration: none; text-transform: uppercase;
@@ -103,7 +95,7 @@
             cursor: pointer; font-size: 0.9rem; display: inline-block;
             position: relative; overflow: hidden;
             z-index: 100;
-            text-shadow: none !important; /* Forces no glow on buttons */
+            text-shadow: none !important;
         }
         .ui-btn:hover {
             background: #ffffff;
@@ -120,7 +112,7 @@
         }
         .back-btn { background: #000; border: 1px solid rgba(255,255,255,0.6); }
 
-        /* 6. INVENTIONS LAYER (Effect Removed Here) */
+        /* 6. INVENTIONS LAYER */
         #inventions-layer {
             position: fixed; inset: 0;
             background: #000;
@@ -133,31 +125,37 @@
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Resetting text in inventions layer to be clean/sharp */
-        #inventions-layer h1, 
-        #inventions-layer p, 
-        #inventions-layer h3 {
-            text-shadow: none !important;
-            letter-spacing: normal;
-        }
+        #inventions-layer h1 { font-size: 4rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 40px; }
 
         .inv-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 40px;
             width: 100%;
             max-width: 1200px;
-            margin-top: 60px;
         }
 
         .inv-card {
-            background: #111;
-            border: 1px solid #222;
-            padding: 20px;
-            transition: 0.3s;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 30px;
+            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            flex-direction: column;
         }
 
-        .inv-img { width: 100%; height: 200px; background: #1a1a1a; object-fit: cover; margin-bottom: 15px; }
+        .inv-card:hover { border-color: #fff; transform: translateY(-10px); }
+
+        .inv-img { 
+            width: 100%; height: 250px; 
+            background: #111 center center / cover no-repeat;
+            margin-bottom: 25px; 
+            border: 1px solid #222;
+        }
+
+        .inv-card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; font-weight: 700; }
+        .inv-card p { font-size: 1rem; color: #aaa; line-height: 1.7; font-weight: 300; flex-grow: 1; }
+        .disclaimer { font-style: italic; color: #555; font-size: 0.85rem; margin-top: 15px; border-top: 1px solid #222; padding-top: 10px; }
 
         .dot { height: 4px; width: 4px; background: rgba(255,255,255,0.2); margin: 30px auto 0; border-radius: 50%; }
         .action-box { margin-top: 50px; display: flex; gap: 20px; justify-content: center; }
@@ -179,37 +177,13 @@
     <div class="vignette"></div>
 
     <div id="portfolio">
+        <div class="section"><div class="text-content"><p>Hello, I am <strong>Omar Wael</strong> and you can call me <strong>THE ARTIST</strong>.</p><div class="dot"></div></div></div>
+        <div class="section"><div class="text-content"><p>I am a teenager and I love challenges, محشي ورق عنب, and <strong>Fairuz</strong>.</p><div class="dot"></div></div></div>
+        <div class="section"><div class="text-content"><p>The best and the most handsome and the kindest and the richest <strong>Omar Wael</strong>.</p><div class="dot"></div></div></div>
+        <div class="section"><div class="text-content"><p>I study in <strong>STEM schools [ Ismailia ]</strong>, focusing on <strong>biology</strong> and <strong>chemistry</strong>.</p><div class="dot"></div></div></div>
         <div class="section">
             <div class="text-content">
-                <p>Hello, I am <strong>Omar Wael</strong> and you can call me <strong>THE ARTIST</strong>.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="text-content">
-                <p>I am a teenager and I love challenges, محشي ورق عنب, and <strong>Fairuz</strong>.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="text-content">
-                <p>The best and the most handsome and the kindest and the richest <strong>Omar Wael</strong>.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="text-content">
-                <p>Architecting incubator systems with parallel circuit integration and precision ATmega sensing.</p>
-                <div class="dot"></div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <div class="text-content">
-                <p>From Ismailia to Siwa: Traveling and documenting the practical application of STEM in the field.</p>
+                <p>Physics explains the world, but I'm the one who's going to <strong>redesign it</strong>.</p>
                 <div class="action-box">
                     <a href="https://www.instagram.com/omar_wael_9.47/" target="_blank" class="ui-btn">Instagram</a>
                     <label for="inv-trigger" class="ui-btn">Inventions</label>
@@ -219,13 +193,29 @@
     </div>
 
     <div id="inventions-layer">
-        <h1 style="font-size: 4rem; font-weight: 800; letter-spacing: -2px;">Inventions</h1>
+        <h1>Inventions</h1>
         <div class="inv-grid">
+            
             <div class="inv-card">
-                <div class="inv-img"></div>
-                <h3>Project Title</h3>
-                <p>Ready for your project photos.</p>
+                <div class="inv-img" style="background-color: #1a1a1a;"></div>
+                <h3>Biological Cell Incubator</h3>
+                <p>
+                    A precision-engineered system designed to maintain specific environmental conditions for bacteria and fungi. 
+                    Utilized in <strong>PCR</strong> workflows and gene editing, maintaining stability from <strong>0.4°C to 66°C</strong>.
+                </p>
+                <p class="disclaimer">Note: Strictly for scientific use; not for use as a dorm refrigerator.</p>
             </div>
+
+            <div class="inv-card">
+                <div class="inv-img" style="background-image: url('./creepy_potato.png'); background-size: cover; background-position: center;"></div>
+                <h3>Creepy Potato</h3>
+                <p>
+                    A 2D platformer architected in the <strong>Godot Engine</strong> with a singular purpose: <strong>ragebait</strong>. 
+                    Built using logic-driven GDScript environments, this project features high-difficulty mechanics designed to challenge even the most patient players.
+                </p>
+                <p class="disclaimer">Warning: May cause keyboard damage, of course not because of the bad game design.</p>
+            </div>
+
         </div>
     </div>
 
