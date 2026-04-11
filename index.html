@@ -16,14 +16,15 @@
             height: 100dvh;
         }
 
-        #nav-trigger, #inv-trigger { display: none; }
+        /* 2. TRIGGER CONTROLS */
+        #nav-trigger, #inv-trigger, #contact-trigger, #about-trigger { display: none; }
 
-        /* 2. LANDING GATE */
+        /* 3. LANDING GATE */
         #landing {
             height: 100dvh; width: 100%;
             display: flex; justify-content: center; align-items: center;
             background-color: #ffffff;
-            position: fixed; top: 0; left: 0; z-index: 3000;
+            position: fixed; top: 0; left: 0; z-index: 4000;
             transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
@@ -34,54 +35,79 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-block;
             user-select: none;
+            padding: 10px 20px;
         }
-        .press-label:hover { transform: scale(1.05); opacity: 0.6; letter-spacing: 2px; }
 
+        .press-label:hover {
+            transform: scale(1.1);
+            letter-spacing: 4px;
+            color: #333;
+        }
+
+        /* 4. VISIBILITY & ANTI-GLITCH LOGIC */
         #nav-trigger:checked ~ #landing { transform: translateY(-100%); pointer-events: none; }
         #nav-trigger:checked ~ #portfolio { display: block; overflow-y: auto; }
         #nav-trigger:checked ~ .vignette { display: block; }
 
-        #inv-trigger:checked ~ #portfolio { transform: translateY(-100%); pointer-events: none; }
-        #inv-trigger:checked ~ #inventions-layer { opacity: 1; visibility: visible; pointer-events: auto; }
-        #inv-trigger:checked ~ .top-nav { z-index: 2000; opacity: 1; visibility: visible; pointer-events: auto; }
+        #inv-trigger:checked ~ #portfolio, 
+        #contact-trigger:checked ~ #portfolio,
+        #about-trigger:checked ~ #portfolio { 
+            opacity: 0; 
+            visibility: hidden; 
+            pointer-events: none; 
+        }
 
-        /* 3. VIGNETTE EFFECT */
+        #inv-trigger:checked ~ #inventions-layer { opacity: 1; visibility: visible; pointer-events: auto; }
+        #contact-trigger:checked ~ #contact-layer { opacity: 1; visibility: visible; pointer-events: auto; }
+        #about-trigger:checked ~ #about-layer { opacity: 1; visibility: visible; pointer-events: auto; }
+        
+        #inv-trigger:checked ~ .top-nav.inv-back, 
+        #contact-trigger:checked ~ .top-nav.contact-back,
+        #about-trigger:checked ~ .top-nav.about-back { 
+            opacity: 1; visibility: visible; pointer-events: auto; 
+        }
+
+        /* 5. HIDE SCROLLBARS */
+        #portfolio, #inventions-layer {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        #portfolio::-webkit-scrollbar, 
+        #inventions-layer::-webkit-scrollbar { 
+            display: none; 
+        }
+
+        /* 6. VIGNETTE EFFECT */
         .vignette {
             position: fixed; inset: 0;
             background: radial-gradient(circle, transparent 15%, rgba(0,0,0,0.98) 85%);
             pointer-events: none; z-index: 50; display: none;
         }
 
-        /* 4. PORTFOLIO CONTAINER */
+        /* 7. PORTFOLIO CONTAINER */
         #portfolio { 
             display: none; 
             height: 100dvh; 
             scroll-snap-type: y mandatory; 
-            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+            transition: opacity 0.5s ease;
             position: relative;
             z-index: 100;
-            scrollbar-width: none;
         }
-        #portfolio::-webkit-scrollbar { display: none; }
 
         .section {
             height: 100dvh; width: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             scroll-snap-align: start; padding: 0 10%;
             position: relative;
-            will-change: transform, opacity;
         }
 
         .text-content {
             font-size: clamp(1.2rem, 5vw, 2.2rem); 
             text-align: center; max-width: 900px;
             font-weight: 300; line-height: 1.6; z-index: 60;
-            view-timeline-name: --section;
-            view-timeline-axis: block;
-            animation: linear both fade-reveal;
-            animation-timeline: --section;
+            animation: fade-reveal linear both;
+            animation-timeline: view();
             animation-range: entry 15% exit 85%;
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
         }
 
         @keyframes fade-reveal {
@@ -90,113 +116,104 @@
             100% { opacity: 0; transform: translateY(-30px); filter: blur(10px); }
         }
 
-        /* 5. UI BUTTONS */
+        /* 8. UI BUTTONS */
         .ui-btn {
             padding: 12px 28px; border: 1px solid rgba(255,255,255,0.3);
             color: #fff; text-decoration: none; text-transform: uppercase;
-            letter-spacing: 2px; transition: all 0.3s ease;
-            background: transparent;
-            cursor: pointer; font-size: 0.8rem; display: inline-block;
-            position: relative; z-index: 100;
+            letter-spacing: 2px; transition: 0.3s ease;
+            background: transparent; cursor: pointer; font-size: 0.8rem;
+            position: relative; z-index: 500;
         }
-        .ui-btn:hover {
-            background: #ffffff; color: #000 !important;
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
-            transform: translateY(-2px);
+        .ui-btn:hover { background: #ffffff; color: #000 !important; }
+
+        .top-right-nav {
+            position: absolute; top: 40px; right: 40px;
+            display: flex; gap: 10px; z-index: 500;
         }
 
-        /* 6. NAVIGATION */
         .top-nav {
             position: fixed; top: 30px; right: 30px;
             opacity: 0; visibility: hidden; transition: 0.4s ease;
-            z-index: 2000;
+            z-index: 3000;
         }
 
-        .home-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* 7. SLIDER INVENTIONS LAYER */
-        #inventions-layer {
+        /* 9. FULL LAYERS */
+        .full-layer {
             position: fixed; inset: 0;
-            background: #050505;
-            z-index: 10; opacity: 0; visibility: hidden;
-            transition: all 0.7s cubic-bezier(0.85, 0, 0.15, 1);
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center;
+            background: #050505; z-index: 2000;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transition: 0.7s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
-        #inventions-layer h1 { 
-            font-size: clamp(2.5rem, 12vw, 6rem); 
-            font-weight: 900; letter-spacing: -2px; margin-bottom: 30px;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .layer-title {
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            font-weight: 900; text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff, #444);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-align: center;
         }
 
-        .inv-slider {
-            display: flex; overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-padding: 0 10%; gap: 30px; width: 100%;
-            padding: 20px 10%; scrollbar-width: none;
-        }
-        .inv-slider::-webkit-scrollbar { display: none; }
-
+        /* 10. INVENTION CARDS */
         .inv-card {
-            flex: 0 0 320px; scroll-snap-align: center;
             background: #0a0a0a; border: 1px solid #1a1a1a;
-            padding: 30px; transition: 0.3s ease;
-            display: flex; flex-direction: column;
+            padding: 30px; max-width: 600px;
+            transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        @media (min-width: 768px) { .inv-card { flex: 0 0 450px; } }
-        .inv-card:hover { border-color: #444; transform: translateY(-5px); }
 
-        .inv-img { 
-            width: 100%; height: 200px; margin-bottom: 20px; 
-            background-color: #000; border: 1px solid #1a1a1a;
+        .inv-card:hover {
+            border-color: #222;
+            background: #0d0d0d;
+            transform: translateX(-10px); 
+            outline: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
         }
 
         .inv-card h3 { font-size: 1.4rem; margin-bottom: 12px; color: #fff; }
-        .inv-card p { font-size: 0.9rem; color: #aaa; line-height: 1.6; flex-grow: 1; }
+        .inv-card p { font-size: 0.9rem; color: #aaa; line-height: 1.6; }
 
         .disclaimer { 
-            font-size: 0.7rem; color: #777; margin-top: 20px; 
+            font-size: 0.7rem; color: #555; margin-top: 20px; 
             padding-top: 15px; border-top: 1px solid #1a1a1a;
             text-transform: uppercase; letter-spacing: 1px;
         }
 
-        .scroll-hint {
-            margin-top: 30px; font-size: 0.7rem; color: #444;
-            letter-spacing: 3px; text-transform: uppercase;
-            animation: pulse 2s infinite;
+        .action-box { margin-top: 40px; display: flex; gap: 15px; justify-content: center; }
+        .dot { height: 4px; width: 4px; background: #333; margin: 25px auto 0; border-radius: 50%; }
+
+        .inv-section {
+            height: 100dvh; width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            scroll-snap-align: start; padding: 0 10%;
         }
 
-        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
-        .dot { height: 4px; width: 4px; background: #333; margin: 25px auto 0; border-radius: 50%; }
-        .action-box { margin-top: 40px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
     </style>
 </head>
 <body>
 
     <input type="checkbox" id="nav-trigger">
     <input type="checkbox" id="inv-trigger">
+    <input type="checkbox" id="contact-trigger">
+    <input type="checkbox" id="about-trigger">
 
     <div id="landing">
         <label for="nav-trigger" class="press-label">press me :)</label>
     </div>
 
-    <div class="top-nav">
-        <label for="inv-trigger" class="ui-btn">Back</label>
-    </div>
+    <div class="top-nav inv-back"> <label for="inv-trigger" class="ui-btn">Back</label> </div>
+    <div class="top-nav contact-back"> <label for="contact-trigger" class="ui-btn">Back</label> </div>
+    <div class="top-nav about-back"> <label for="about-trigger" class="ui-btn">Back</label> </div>
 
     <div class="vignette"></div>
 
     <div id="portfolio">
         <section class="section">
+            <div class="top-right-nav">
+                <label for="about-trigger" class="ui-btn" style="opacity: 0.6; font-size: 0.7rem;">About Me</label>
+                <label for="contact-trigger" class="ui-btn" style="opacity: 0.6; font-size: 0.7rem;">Contact Me</label>
+                <label for="nav-trigger" class="ui-btn" style="opacity: 0.6; font-size: 0.7rem;">Home</label>
+            </div>
             <div class="text-content">
-                <p>Hello, I am <strong>Omar Wael</strong> and you can call me <strong>THE ARTIST</strong>.</p>
+                <p>Hello, I am <strong>Omar Wael</strong> and you can call me <strong>Gedo</strong>.</p>
                 <div class="dot"></div>
             </div>
         </section>
@@ -204,13 +221,6 @@
         <section class="section">
             <div class="text-content">
                 <p>I am a teenager and I love challenges, محشي ورق عنب, and <strong>Fairuz</strong>.</p>
-                <div class="dot"></div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="text-content">
-                <p>The best and the most handsome and the kindest and the richest <strong>Omar Wael</strong>.</p>
                 <div class="dot"></div>
             </div>
         </section>
@@ -226,7 +236,6 @@
             <div class="text-content">
                 <p>Physics explains the world, but I'm the one who's going to <strong>redesign it</strong>.</p>
                 <div class="action-box">
-                    <label for="nav-trigger" class="ui-btn home-btn">Home</label>
                     <a href="https://www.instagram.com/omar_wael_9.47/" target="_blank" class="ui-btn">Instagram</a>
                     <label for="inv-trigger" class="ui-btn">Inventions</label>
                 </div>
@@ -234,31 +243,52 @@
         </section>
     </div>
 
-    <div id="inventions-layer">
-        <h1>Inventions</h1>
-        <div class="inv-slider">
+    <div id="about-layer" class="full-layer" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <h2 class="layer-title">About Me</h2>
+        <div class="text-content" style="font-size: 1.1rem; color: #aaa; max-width: 700px; line-height: 1.8; text-align: left;">
+            <p>18 years in Cairo — 15 May City.</p>
+            <p>STEM student (for now… hopefully not next year).</p>
+            <p>Quiet at first, more talkative once I’m comfortable. <strong>Fairuz</strong> and <strong>Magda El Roumi</strong> in my ears when I need to reset and think clearly.</p>
+            <p>The goal is straightforward: become a doctor, build a strong career, and make real money. No unnecessary noise, no fake motivation — just the shortest and smartest path to where I want to be.</p>
+        </div>
+    </div>
+
+    <div id="contact-layer" class="full-layer" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <h2 class="layer-title">Contact</h2>
+        <div class="action-box" style="flex-direction: column; align-items: center;">
+            <a href="mailto:omarwael@gmail.com" class="ui-btn">Gmail</a>
+            <a href="https://www.instagram.com/omar_wael_9.47/" target="_blank" class="ui-btn">Instagram</a>
+        </div>
+    </div>
+
+    <div id="inventions-layer" class="full-layer" style="display: block; overflow-y: auto; scroll-snap-type: y mandatory;">
+        <section class="inv-section">
+            <h2 class="layer-title">Inventions</h2>
+        </section>
+
+        <section class="inv-section">
             <div class="inv-card">
-                <div class="inv-img"></div>
                 <h3>Biological Cell Incubator</h3>
-                <p>A precision-engineered system designed to maintain strict environmental parameters for bacterial and fungal cultures. Utilizes dual-thermostat regulation to ensure homeostatic stability.</p>
+                <p>A precision-engineered system designed to maintain strict environmental parameters for bacterial and fungal cultures. Utilizes dual-thermostat regulation for homeostatic stability.</p>
                 <p class="disclaimer">Status: Functional Prototype</p>
             </div>
+        </section>
 
+        <section class="inv-section">
             <div class="inv-card">
-                <div class="inv-img" style="display: flex; align-items: center; justify-content: center; color: #333; font-size: 0.7rem;">PHOTO PENDING</div>
                 <h3>V-G.H. (Growth Homeostat)</h3>
                 <p>An automated growth chamber regulating Vapor Pressure Deficit (VPD) and photonic input for accelerated biomass production.</p>
                 <p class="disclaimer">Focus: Sustainable Automation</p>
             </div>
+        </section>
 
+        <section class="inv-section">
             <div class="inv-card">
-                <div class="inv-img"></div>
                 <h3>Creepy Potato</h3>
                 <p>A 2D platformer architected in Godot. A study in difficulty-based user psychology, featuring logic-driven level design.</p>
                 <p class="disclaimer">Engine: Godot / GDScript</p>
             </div>
-        </div>
-        <div class="scroll-hint">SHIFT + SCROLL OR SWIPE</div>
+        </section>
     </div>
 
 </body>
