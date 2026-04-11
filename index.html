@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Omar Wael</title>
     <style>
-        /* 1. CORE RESET */
+        /* 1. CORE RESET & DVH OPTIMIZATION */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body, html {
@@ -13,27 +13,29 @@
             font-family: 'Inter', 'Segoe UI', sans-serif;
             color: #e0e0e0;
             overflow: hidden; 
-            height: 100vh;
+            height: 100dvh;
         }
 
         #nav-trigger, #inv-trigger { display: none; }
 
         /* 2. LANDING GATE */
         #landing {
-            height: 100vh; width: 100%;
+            height: 100dvh; width: 100%;
             display: flex; justify-content: center; align-items: center;
             background-color: #ffffff;
-            position: fixed; top: 0; left: 0; z-index: 1000;
+            position: fixed; top: 0; left: 0; z-index: 3000;
             transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
         .press-label {
-            font-size: 3.5rem; color: #000; font-weight: 800;
+            font-size: clamp(2rem, 8vw, 3.5rem); 
+            color: #000; font-weight: 800;
             cursor: pointer; letter-spacing: -1px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-block;
+            user-select: none;
         }
-        .press-label:hover { transform: scale(1.1); opacity: 0.6; letter-spacing: 2px; }
+        .press-label:hover { transform: scale(1.05); opacity: 0.6; letter-spacing: 2px; }
 
         #nav-trigger:checked ~ #landing { transform: translateY(-100%); pointer-events: none; }
         #nav-trigger:checked ~ #portfolio { display: block; overflow-y: auto; }
@@ -53,174 +55,127 @@
         /* 4. PORTFOLIO CONTAINER */
         #portfolio { 
             display: none; 
-            height: 100vh; 
+            height: 100dvh; 
             scroll-snap-type: y mandatory; 
             transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
             position: relative;
             z-index: 100;
+            scrollbar-width: none;
         }
         #portfolio::-webkit-scrollbar { display: none; }
 
         .section {
-            height: 100vh; width: 100%;
+            height: 100dvh; width: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             scroll-snap-align: start; padding: 0 10%;
             position: relative;
+            will-change: transform, opacity;
         }
 
         .text-content {
-            font-size: 2.2rem; text-align: center; max-width: 900px;
+            font-size: clamp(1.2rem, 5vw, 2.2rem); 
+            text-align: center; max-width: 900px;
             font-weight: 300; line-height: 1.6; z-index: 60;
             view-timeline-name: --section;
             view-timeline-axis: block;
             animation: linear both fade-reveal;
             animation-timeline: --section;
             animation-range: entry 15% exit 85%;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(255,255,255,0.1);
-            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
         }
 
         @keyframes fade-reveal {
-            0% { opacity: 0; transform: translateY(40px); filter: blur(15px); }
+            0% { opacity: 0; transform: translateY(30px); filter: blur(10px); }
             30%, 70% { opacity: 1; transform: translateY(0); filter: blur(0px); }
-            100% { opacity: 0; transform: translateY(-40px); filter: blur(15px); }
+            100% { opacity: 0; transform: translateY(-30px); filter: blur(10px); }
         }
 
         /* 5. UI BUTTONS */
         .ui-btn {
-            padding: 12px 30px; border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 28px; border: 1px solid rgba(255,255,255,0.3);
             color: #fff; text-decoration: none; text-transform: uppercase;
-            letter-spacing: 2px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 2px; transition: all 0.3s ease;
             background: transparent;
-            cursor: pointer; font-size: 0.9rem; display: inline-block;
-            position: relative; overflow: hidden;
-            z-index: 100;
+            cursor: pointer; font-size: 0.8rem; display: inline-block;
+            position: relative; z-index: 100;
         }
         .ui-btn:hover {
-            background: #ffffff;
-            color: #000000 !important;
-            box-shadow: 0 0 25px rgba(255,255,255,0.4);
-            transform: translateY(-3px);
-            border-color: #ffffff;
+            background: #ffffff; color: #000 !important;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
-        /* 6. NAVIGATION STYLES */
+        /* 6. NAVIGATION */
         .top-nav {
-            position: fixed; top: 40px; right: 40px;
-            opacity: 0; visibility: hidden; transition: 0.5s ease;
-            pointer-events: none; z-index: 2000;
+            position: fixed; top: 30px; right: 30px;
+            opacity: 0; visibility: hidden; transition: 0.4s ease;
+            z-index: 2000;
         }
-        .back-btn { background: #000; border: 1px solid rgba(255,255,255,0.6); }
 
-        .project-trigger {
+        .home-btn {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* 7. SLIDER INVENTIONS LAYER */
         #inventions-layer {
             position: fixed; inset: 0;
             background: #050505;
-            z-index: 10;
-            opacity: 0; visibility: hidden;
-            transition: all 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+            z-index: 10; opacity: 0; visibility: hidden;
+            transition: all 0.7s cubic-bezier(0.85, 0, 0.15, 1);
             display: flex; flex-direction: column; align-items: center;
             justify-content: center;
         }
 
         #inventions-layer h1 { 
-            font-size: clamp(3rem, 10vw, 5rem); 
-            font-weight: 900; 
-            letter-spacing: -3px; 
-            margin-bottom: 40px;
+            font-size: clamp(2.5rem, 12vw, 6rem); 
+            font-weight: 900; letter-spacing: -2px; margin-bottom: 30px;
             text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff, #444);
+            background: linear-gradient(to bottom, #fff, #666);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* THE HORIZONTAL BAR */
         .inv-slider {
-            display: flex;
-            overflow-x: auto;
+            display: flex; overflow-x: auto;
             scroll-snap-type: x mandatory;
-            gap: 40px;
-            width: 100%;
-            padding: 20px 20%; /* Centers first and last card */
-            scrollbar-width: none;
+            scroll-padding: 0 10%; gap: 30px; width: 100%;
+            padding: 20px 10%; scrollbar-width: none;
         }
         .inv-slider::-webkit-scrollbar { display: none; }
 
         .inv-card {
-            flex: 0 0 450px; /* Width of each bar item */
-            scroll-snap-align: center;
-            background: #0d0d0d; 
-            border: 1px solid #1a1a1a;
-            padding: 40px; 
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex; 
-            flex-direction: column;
-            position: relative;
+            flex: 0 0 320px; scroll-snap-align: center;
+            background: #0a0a0a; border: 1px solid #1a1a1a;
+            padding: 30px; transition: 0.3s ease;
+            display: flex; flex-direction: column;
         }
-
-        .inv-card:hover { 
-            border-color: rgba(255,255,255,0.4); 
-            background: #111;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
+        @media (min-width: 768px) { .inv-card { flex: 0 0 450px; } }
+        .inv-card:hover { border-color: #444; transform: translateY(-5px); }
 
         .inv-img { 
-            width: 100%; height: 220px; 
-            margin-bottom: 30px; 
-            border: 1px solid #222;
-            background-color: #000;
-            background-size: cover;
-            background-position: center;
-            transition: 0.5s ease;
+            width: 100%; height: 200px; margin-bottom: 20px; 
+            background-color: #000; border: 1px solid #1a1a1a;
         }
 
-        .inv-card h3 { 
-            font-size: 1.6rem; 
-            margin-bottom: 15px; 
-            color: #fff; 
-            font-weight: 700; 
-        }
-
-        .inv-card p { 
-            font-size: 0.95rem; 
-            color: #999; 
-            line-height: 1.8; 
-            flex-grow: 1; 
-        }
+        .inv-card h3 { font-size: 1.4rem; margin-bottom: 12px; color: #fff; }
+        .inv-card p { font-size: 0.9rem; color: #aaa; line-height: 1.6; flex-grow: 1; }
 
         .disclaimer { 
-            font-size: 0.75rem; 
-            color: #444; 
-            margin-top: 25px; 
-            padding-top: 15px;
-            border-top: 1px solid #1a1a1a;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
+            font-size: 0.7rem; color: #777; margin-top: 20px; 
+            padding-top: 15px; border-top: 1px solid #1a1a1a;
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
         .scroll-hint {
-            margin-top: 40px;
-            font-size: 0.8rem;
-            color: #333;
-            letter-spacing: 4px;
-            text-transform: uppercase;
+            margin-top: 30px; font-size: 0.7rem; color: #444;
+            letter-spacing: 3px; text-transform: uppercase;
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        .dot { height: 4px; width: 4px; background: rgba(255,255,255,0.2); margin: 30px auto 0; border-radius: 50%; }
-        .action-box { margin-top: 50px; display: flex; gap: 20px; justify-content: center; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+        .dot { height: 4px; width: 4px; background: #333; margin: 25px auto 0; border-radius: 50%; }
+        .action-box { margin-top: 40px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
     </style>
 </head>
 <body>
@@ -233,65 +188,77 @@
     </div>
 
     <div class="top-nav">
-        <label for="inv-trigger" class="ui-btn back-btn">Back</label>
+        <label for="inv-trigger" class="ui-btn">Back</label>
     </div>
 
     <div class="vignette"></div>
 
     <div id="portfolio">
-        <div class="section"><div class="text-content"><p>Hello, I am <strong>Omar Wael</strong> and you can call me <strong>THE ARTIST</strong>.</p><div class="dot"></div></div></div>
-        <div class="section"><div class="text-content"><p>I am a teenager and I love challenges, محشي ورق عنب, and <strong>Fairuz</strong>.</p><div class="dot"></div></div></div>
-        <div class="section"><div class="text-content"><p>The best and the most handsome and the kindest and the richest <strong>Omar Wael</strong>.</p><div class="dot"></div></div></div>
-        <div class="section"><div class="text-content"><p>I study in <strong>STEM schools [ Ismailia ]</strong>, focusing on <strong>biology</strong> and <strong>chemistry</strong>.</p><div class="dot"></div></div></div>
-        <div class="section">
+        <section class="section">
+            <div class="text-content">
+                <p>Hello, I am <strong>Omar Wael</strong> and you can call me <strong>THE ARTIST</strong>.</p>
+                <div class="dot"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="text-content">
+                <p>I am a teenager and I love challenges, محشي ورق عنب, and <strong>Fairuz</strong>.</p>
+                <div class="dot"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="text-content">
+                <p>The best and the most handsome and the kindest and the richest <strong>Omar Wael</strong>.</p>
+                <div class="dot"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="text-content">
+                <p>I study in <strong>STEM schools [ Ismailia ]</strong>, focusing on <strong>biology</strong> and <strong>chemistry</strong>.</p>
+                <div class="dot"></div>
+            </div>
+        </section>
+
+        <section class="section">
             <div class="text-content">
                 <p>Physics explains the world, but I'm the one who's going to <strong>redesign it</strong>.</p>
                 <div class="action-box">
+                    <label for="nav-trigger" class="ui-btn home-btn">Home</label>
                     <a href="https://www.instagram.com/omar_wael_9.47/" target="_blank" class="ui-btn">Instagram</a>
-                    <label for="inv-trigger" class="ui-btn project-trigger">Inventions</label>
+                    <label for="inv-trigger" class="ui-btn">Inventions</label>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
     <div id="inventions-layer">
         <h1>Inventions</h1>
-        
         <div class="inv-slider">
             <div class="inv-card">
-                <div class="inv-img" style="background-color: #111;"></div>
+                <div class="inv-img"></div>
                 <h3>Biological Cell Incubator</h3>
-                <p>
-                    A precision-engineered system designed to maintain strict environmental parameters for bacterial and fungal cultures. 
-                    Utilizes dual-thermostat regulation to ensure homeostatic stability.
-                </p>
+                <p>A precision-engineered system designed to maintain strict environmental parameters for bacterial and fungal cultures. Utilizes dual-thermostat regulation to ensure homeostatic stability.</p>
                 <p class="disclaimer">Status: Functional Prototype</p>
             </div>
 
             <div class="inv-card">
-                <div class="inv-img" style="background-color: #111; display: flex; align-items: center; justify-content: center; color: #222; font-size: 0.8rem; letter-spacing: 2px;">
-                    PHOTO PENDING
-                </div>
+                <div class="inv-img" style="display: flex; align-items: center; justify-content: center; color: #333; font-size: 0.7rem;">PHOTO PENDING</div>
                 <h3>V-G.H. (Growth Homeostat)</h3>
-                <p>
-                    An automated growth chamber regulating <strong>Vapor Pressure Deficit (VPD)</strong> and photonic input for accelerated biomass production. 
-                    Optimized for resource management.
-                </p>
+                <p>An automated growth chamber regulating Vapor Pressure Deficit (VPD) and photonic input for accelerated biomass production.</p>
                 <p class="disclaimer">Focus: Sustainable Automation</p>
             </div>
 
             <div class="inv-card">
-                <div class="inv-img" style="background-image: url('creepy_potato.png') !important;"></div>
+                <div class="inv-img"></div>
                 <h3>Creepy Potato</h3>
-                <p>
-                    A 2D platformer architected in <strong>Godot</strong>. 
-                    A study in difficulty-based user psychology, featuring logic-driven level design intended to test mechanical precision.
-                </p>
+                <p>A 2D platformer architected in Godot. A study in difficulty-based user psychology, featuring logic-driven level design.</p>
                 <p class="disclaimer">Engine: Godot / GDScript</p>
             </div>
         </div>
-
-        <div class="scroll-hint">SHIFT LEFT OR RIGHT</div>
+        <div class="scroll-hint">SHIFT + SCROLL OR SWIPE</div>
     </div>
 
 </body>
