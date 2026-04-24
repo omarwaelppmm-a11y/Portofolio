@@ -1,5 +1,14 @@
-# Website
-a website about me and just scroll down and up to read 
-don't be afraid from any buttons 
-follow me on instagram 
-tried to add images by ai but could not LOLLLLL
+Project Title: Omar Wael’s Personal Hub
+
+Author: Omar Wael
+
+Event: BEEST Event
+
+feaatures:- 
+the gallery:- a place where i put my inventions and the projects i have done in the past 
+About me:- status update about my current situation academically and projection in life 
+transitions:- cool transittions :
+jumpscare:- did put jumpscare but failed to complete so removed it 
+
+made with visual studio code 
+HTML, CSS
